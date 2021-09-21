@@ -1,0 +1,82 @@
+﻿@model PortailIEPSM.Areas.Groupe_2.ViewModels.AdminViewModel
+@section Styles {
+    <link href="~/css/css_groupe2/styles.css" rel="stylesheet" />
+}
+<div class="container-lg">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Créer un article</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Administration</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="GestionArticles">Gestion des articles</a></li>
+                <li class="breadcrumb-item active">Créer un article</li>
+            </ol>
+        </div>
+    </div>
+    @if (Model.Categories.Count > 0)
+    {
+        @using (Html.BeginForm("CreerArticle", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
+        {
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Erreur</h4>
+                    @Html.ValidationSummary()
+                </div>
+            }
+            @if (Model.Confirmation.Code != 0)
+            {
+                <div class="alert alert-@(Model.Confirmation.Code == 1 ? "danger" : "success") alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa @(Model.Confirmation.Code == 1 ? "fa-ban" : "fa-check")"></i> @(Model.Confirmation.Code == 1 ? "Erreur" : "Confirmation")</h4>
+                    @Model.Confirmation.Message
+                </div>
+            }
+            <div class="form-group">
+                @Html.LabelFor(model => model.Article.Titre)
+                @Html.TextBoxFor(model => model.Article.Titre, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Article.Description)
+                @Html.TextBoxFor(model => model.Article.Description, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Article.UploadImage)
+                @Html.TextBoxFor(model => model.Article.UploadImage, new { type = "file", @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Article.Corps)
+                @Html.TextAreaFor(model => model.Article.Corps, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Article.CategorieID)
+                @Html.DropDownListFor(model => model.Article.CategorieID, new SelectList(Model.Categories, "Id", "Nom", 1), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="visibleenum">Visibilité</label>
+                <select asp-for="Article.VisibleEnum" asp-items="Html.GetEnumSelectList<Visible>().OrderByDescending(list => list.Text)" class="form-control" id="visibleenum">
+                </select>
+            </div>
+            <input type="submit" value="Créer l'article" class="btn btn-success btn-block" />
+        }
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <h4><i class="icon fa fa-exclamation"></i> Information</h4>
+            Vous devez d'abord créer une catégorie avant de publier un article.
+        </div>
+    }
+
+</div>
+@section Scripts {
+    <script src="https://adminlte.io/themes/AdminLTE/bower_components/ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Article_Corps');
+    </script>
+}
+
+

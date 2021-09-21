@@ -1,0 +1,30 @@
+﻿@model List<PortailIEPSM.Areas.Groupe_2.Models.Categorie>
+@section Styles {
+    <link href="~/css/css_groupe2/groupe2.css" rel="stylesheet" />
+}
+
+<div class="categories-container">
+    <div class="title-section">
+        <div class="title">Les catégories</div>
+    </div>
+    @if (Model.Count > 0)
+    {
+        <div class="categories-grid">
+            @foreach (var categorie in Model)
+            {
+                <a href="Afficher/@categorie.Id" class="category-link">
+                    <div class="category-box">
+                        <div class="category-picture">
+                            <img src="/groupe2_uploads/@categorie.Image" alt="">
+                        </div>
+                        <div class="category-title">@categorie.Nom</div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div>Il n'y a aucune catégorie pour le moment</div>
+    }
+</div>

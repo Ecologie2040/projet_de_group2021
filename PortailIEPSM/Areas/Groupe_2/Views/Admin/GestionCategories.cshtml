@@ -1,0 +1,67 @@
+﻿@model List<PortailIEPSM.Areas.Groupe_2.Models.Categorie>
+@section Styles {
+    <link rel="stylesheet" href="~/themes/AdminLTE-3.0.5/plugins/sweetalert2/sweetalert2.css">
+}
+<div class="container-lg">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Gestion des catégories</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Administration</a></li>
+                <li class="breadcrumb-item active">Gestion des catégories</li>
+            </ol>
+        </div>
+    </div>
+    <a asp-controller="Admin" asp-action="CreerCategorie" class="btn btn-outline-success mb-4">Créer une catégorie</a>
+    @if (Model.Count > 0)
+    {
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Visibilité</th>
+                    <th>Actions</th>
+                </tr>
+
+                @foreach (var categorie in Model)
+                {
+                    <tr>
+                        <td>@categorie.Id</td>
+                        <td style="max-width:250px; word-break: break-word;">@categorie.Nom</td>
+                        <td style="max-width:500px;">@categorie.Description</td>
+                        <td><img src="/groupe2_uploads/@categorie.Image" style="width:70px;" /></td>
+                        <td>
+                            @switch (categorie.Visible)
+                            {
+                                case 1:<h4><span class="badge badge-success">Visible</span></h4> break;
+                                case 0: <h4><span class="badge badge-danger">Non-visible</span></h4>break;
+                            }
+                        </td>
+                        <td>
+                            <a href="ModifierCategorie/@categorie.Id" class="btn bg-success btn-flat margin">Éditer</a>
+                            <a href="#" data-id="@categorie.Id" class="btn bg-danger btn-flat margin delete_category">Supprimer</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-exclamation"></i> Information</h4>
+            Il n'y a pour l'instant aucune catégorie à afficher.
+        </div>
+    }
+</div>
+@section Scripts {
+    <script src="~/themes/AdminLTE-3.0.5/plugins/sweetalert2/sweetalert2.all.js"></script>
+    <script src="~/js/groupe2_js/scripts.js"></script>
+}

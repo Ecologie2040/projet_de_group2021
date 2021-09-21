@@ -1,0 +1,59 @@
+﻿@model PortailIEPSM.Areas.Groupe_2.Models.Admin
+
+@section Styles {
+    <link href="~/css/css_groupe2/styles.css" rel="stylesheet" />
+}
+<div class="container-lg">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Créer un administrateur</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Administration</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="GestionAdmin">Gestion des administrateurs</a></li>
+                <li class="breadcrumb-item active">Créer un administrateur</li>
+            </ol>
+        </div>
+    </div>
+    @using (Html.BeginForm("CreerAdmin", "Admin", FormMethod.Post, new { @class = "form" }))
+    {
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Erreur</h4>
+                @Html.ValidationSummary()
+            </div>
+        }
+        @if (Model.Confirmation.Code != 0)
+        {
+            <div class="alert alert-@(Model.Confirmation.Code == 1 ? "danger" : "success") alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa @(Model.Confirmation.Code == 1 ? "fa-ban" : "fa-check")"></i> @(Model.Confirmation.Code == 1 ? "Erreur" : "Confirmation")</h4>
+                @Model.Confirmation.Message
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nom)
+            @Html.TextBoxFor(model => model.Nom, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Prenom)
+            @Html.TextBoxFor(model => model.Prenom, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email)
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Pass)
+            <input type="password" name="motdepasse" class="form-control" />
+        </div>
+
+
+        <input type="submit" value="Créer le compte" class="btn btn-danger btn-block" />
+    }
+
+</div>

@@ -1,0 +1,105 @@
+﻿@model PortailIEPSM.Areas.Groupe_2.ViewModels.ArticleViewModel
+@section Styles {
+    <link href="~/css/css_groupe2/groupe2.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/themes/AdminLTE-3.0.5/plugins/sweetalert2/sweetalert2.css">
+}
+<div class="container">
+    <div class="article-container">
+        <div class="article">
+            <div class="article-title">@Model.Article.Titre</div>
+            <div class="article-infos">
+                <div class="article-category">
+                    <a asp-controller="Categories" asp-action="Afficher" asp-route-id="@Model.Article.CategorieID"><div class="category belgium">@Model.Article.Categorie</div></a>
+                </div>
+                <div class="article-date">Publié le @Model.Article.Date_creation.ToString("dd/MM/yyyy") @(Model.Auteur != null ? "par " + @Model.Auteur.Nom + " " + Model.Auteur.Prenom : "")</div>
+            </div>
+            <div class="article-description">
+                @Model.Article.Description
+            </div>
+            <div class="article-picture">
+                <img src="/groupe2_uploads/1000-@Model.Article.Image" alt="">
+            </div>
+            <div class="article-body">
+                @Html.Raw(Model.Article.Corps)
+            </div>
+            <div class="article-like" data-id="@Model.Article.Id">
+                <h4><span class="badge badge-success"><span class="likes-count">@Model.Article.Jaimes</span> <span class="likes-text">@(Model.Article.Jaimes > 1 ? "J'aimes" : "J'aime")</span></span> </h4> <button type="button" id="like-button-primary" class="btn bg-primary"><i class="fa fa-thumbs-up"></i> J'aime</button>
+            </div>
+
+            <div class="line"></div>
+            <div class="article-comments">
+
+                <div class="comments-title">Réagissez à cet article</div>
+                <form id="comment-form">
+                    <div class="comments-align-inputs">
+                        <div class="input">
+                            <label for="firstname">Nom</label>
+                            @Html.TextBoxFor(model => model.Commentaire.Nom, new { @class = "article-comment-input", @id = "firstname" })
+                        </div>
+                        <div class="input">
+                            <label for="lastname">Prénom</label>
+                            @Html.TextBoxFor(model => model.Commentaire.Prenom, new { @class = "article-comment-input", @id = "lastname" })
+                        </div>
+                    </div>
+                    <div class="input">
+                        <label for="comment">Votre réaction</label>
+                        @Html.TextAreaFor(model => model.Commentaire.Reaction, new { @class = "article-comment-input", @id = "comment" })
+                    </div>
+                    <div class="article-send-comment">
+                        <input type="submit" class="button button-blue" id="submit-comment" data-id_article="@Model.Article.Id">
+                    </div>
+                </form>
+                <div class="article-view-comments">
+                    <div class="comments-title"><span class="count">@Model.Commentaires.Count</span> <span class="count-text">@(Model.Commentaires.Count > 1 ? "Réactions" : "Réaction")</span></div>
+                    @foreach (var commentaire in Model.Commentaires)
+                    {
+                        <div class="user-comment-box">
+                            <div class="user-picture"><img src="pictures/icons/user-reaction.svg" alt=""></div>
+                            <div class="user-reaction">
+                                <div class="comment-username">@commentaire.Nom @commentaire.Prenom a écrit :</div>
+                                <div class="user-comment">@commentaire.Reaction</div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Commentaires.Count == 0)
+                    {
+                        <div class="no-comment">Aucun commentaire</div>
+                    }
+                </div>
+            </div>
+
+        </div>
+        @if (Model.SuggestionArticles.Count > 0)
+        {
+        <div class="articles-suggestion">
+            <div class="suggestion-title">
+                Articles similaires
+            </div>
+            <div class="article-suggestion-container">
+                @foreach (var suggestion in Model.SuggestionArticles)
+                {
+                    <div class="article-suggestion">
+                        <div class="article-suggestion-picture">
+                            <img src="/groupe2_uploads/420-@suggestion.Image" alt="">
+                        </div>
+                        <div class="article-suggestion-title">
+                            <div class="category">
+                                <a asp-controller="Categories" asp-action="Afficher" asp-route-id="@Model.Article.CategorieID">
+                                    <div class="category belgium-inverse">
+                                        @suggestion.Categorie
+                                    </div></a>
+</div>
+                            <a href="@suggestion.Id" class="title"> @suggestion.Titre</a>
+                        </div>
+                    </div>
+                }
+            </div>
+
+        </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script src="~/themes/AdminLTE-3.0.5/plugins/sweetalert2/sweetalert2.all.js"></script>
+    <script src="~/js/groupe2_js/scripts.js"></script>
+} 

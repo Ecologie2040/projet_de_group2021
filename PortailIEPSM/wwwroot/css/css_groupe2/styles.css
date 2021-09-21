@@ -1,0 +1,13 @@
+﻿.form {
+    padding-bottom: 20px;
+}
+
+.login-box {
+    margin: 0 auto;
+}
+
+/* Réduire les commentaires trops longs */
+
+.hiddentext {
+    display: none;
+}

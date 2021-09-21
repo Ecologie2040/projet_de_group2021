@@ -1,0 +1,49 @@
+﻿@model PortailIEPSM.Areas.Groupe_2.ViewModels.AccueilViewModel
+@section Styles {
+<link href="~/css/css_groupe2/groupe2.css" rel="stylesheet" />
+}
+<div class="articles-container">
+    <div class="title-section">
+        <div class="title">@ViewData["titre"]</div>
+    </div>
+    @if (Model.PremierArticle == null)
+    {
+    <div>Cette catégorie ne contient aucun article</div>
+    } else {
+        <div class="home-grid">
+            <div class="article-preview master">
+                <div class="preview-picture">
+                    <img src="/groupe2_uploads/1000-@Model.PremierArticle.Image" alt="">
+                </div>
+                <div class="preview-body">
+                    <div class="preview-title"><a href="/Groupe_2/Accueil/Article/@Model.PremierArticle.Id">@Model.PremierArticle.Titre</a></div>
+                    <div class="preview-categorie">
+                        <a asp-controller="Categories" asp-action="Afficher" asp-route-id="@Model.PremierArticle.CategorieID">
+                            <div class="category belgium">
+                                @Model.PremierArticle.Categorie
+                            </div>
+                                </a>
+                  
+                    </div>
+                </div>
+                <div class="preview-description"> @Model.PremierArticle.Description</div>
+            </div>
+            @foreach (var article in Model.TousLesArticles)
+            {
+                <div class="article-preview">
+                    <div class="preview-picture">
+                        <img src="/groupe2_uploads/420-@article.Image" alt="">
+                    </div>
+                    <div class="preview-body">
+                        <div class="preview-title"><a href="/Groupe_2/Accueil/Article/@article.Id">@article.Titre</a></div>
+                        <div class="preview-categorie">
+                            <a asp-controller="Categories" asp-action="Afficher" asp-route-id="@article.CategorieID"><div class="category belgium">@article.Categorie</div></a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+</div>

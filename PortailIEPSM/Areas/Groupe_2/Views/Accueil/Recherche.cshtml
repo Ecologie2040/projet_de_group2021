@@ -1,0 +1,44 @@
+﻿@model List<PortailIEPSM.Areas.Groupe_2.Models.Article>
+@section Styles {
+    <link href="~/css/css_groupe2/groupe2.css" rel="stylesheet" />
+}
+<div class="container">
+    <div class="title-section">
+        <div class="title">Rechercher un article</div>
+    </div>
+    <form asp-controller="Accueil" asp-action="Recherche" method="post" id="rechercheArticle">
+        <div class="form-group">
+            <input class="form-control form-control-lg" name="recherche" id="rechercheTexte" type="text" placeholder="Nom de l'article">
+            <div class="invalid-feedback" style="display: none;">
+                Votre recherche doit contenir minimum 2 caractères
+            </div>
+        </div>
+            <input type="submit" class="btn btn-lg btn-success" value="Rechercher" />
+        
+    </form>
+    <div class="resultats"></div>
+    @if (Model != null)
+    {
+        @foreach (var article in Model)
+        {
+            <a class="article-viewer-link" asp-controller="Accueil" asp-action="Article" asp-route-id="@article.Id">
+                <div class="article-viewer">
+                    <div class="article-image">
+                        <img src="/groupe2_uploads/420-@article.Image" alt="">
+                    </div>
+                    <div class="article-body">
+                        <div class="article-category">
+                            <div class="category belgium">@article.Categorie</div>
+                        </div>
+                        <div class="article-title">@article.Titre</div>
+                        <div class="article-date">Publié le @article.Date_creation.ToString("dd/MM/yyyy")</div>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+
+</div>
+@section Scripts {
+    <script src="~/js/groupe2_js/scripts.js"></script>
+} 

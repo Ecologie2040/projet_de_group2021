@@ -1,0 +1,59 @@
+﻿@model List<PortailIEPSM.Areas.Groupe_2.Models.Admin>
+@section Styles {
+    <link rel="stylesheet" href="~/themes/AdminLTE-3.0.5/plugins/sweetalert2/sweetalert2.css">
+}
+<div class="container-lg">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Gestion des administrateurs</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Administration</a></li>
+                <li class="breadcrumb-item active">Gestion des administrateurs</li>
+            </ol>
+        </div>
+    </div>
+    <a asp-controller="Admin" asp-action="CreerAdmin" class="btn btn-outline-danger mb-4">Créer un compte administrateur</a>
+    @if (Model != null)
+    {
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+
+                @foreach (var admin in Model)
+                {
+                    <tr>
+                        <td>@admin.Id</td>
+                        <td style="max-width:250px; word-break: break-word;">@admin.Nom</td>
+                        <td style="max-width:500px;">@admin.Prenom</td>
+                        <td>@admin.Email</td>
+                        <td>
+                            <a href="ModifierAdmin/@admin.Id" class="btn bg-success btn-flat margin">Modifier</a>
+                            <a href="#" data-id="@admin.Id" class="btn bg-danger btn-flat margin delete_admin">Supprimer</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-exclamation"></i> Information</h4>
+            L'administration ne possède aucun compte administrateur
+        </div>
+    }
+</div>
+@section Scripts {
+    <script src="~/themes/AdminLTE-3.0.5/plugins/sweetalert2/sweetalert2.all.js"></script>
+    <script src="~/js/groupe2_js/scripts.js"></script>
+}

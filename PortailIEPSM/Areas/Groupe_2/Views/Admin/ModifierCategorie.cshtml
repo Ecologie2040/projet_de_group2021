@@ -1,0 +1,61 @@
+﻿@model PortailIEPSM.Areas.Groupe_2.Models.Categorie
+
+@section Styles {
+    <link href="~/css/css_groupe2/styles.css" rel="stylesheet" />
+}
+<div class="container-lg">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Modifier une catégorie</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Administration</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="GestionCategories">Gestion des catégories</a></li>
+                <li class="breadcrumb-item active">Modifier une catégorie</li>
+            </ol>
+        </div>
+    </div>
+    @using (Html.BeginForm("ModifierCategorie", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
+    {
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-ban"></i> Erreur</h4>
+                @Html.ValidationSummary()
+            </div>
+        }
+        @if (Model.Confirmation.Code != 0)
+        {
+            <div class="alert alert-@(Model.Confirmation.Code == 1 ? "danger" : "success") alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa @(Model.Confirmation.Code == 1 ? "fa-ban" : "fa-check")"></i> @(Model.Confirmation.Code == 1 ? "Erreur" : "Confirmation")</h4>
+                @Model.Confirmation.Message
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nom)
+            @Html.TextBoxFor(model => model.Nom, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description)
+            @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UploadImage)
+            <p>Laisser vide pour ne pas modifier</p>
+            @Html.TextBoxFor(model => model.UploadImage, new { type = "file", @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label for="visibleenum">Visibilité</label>
+            <select asp-for="VisibleEnum" asp-items="Html.GetEnumSelectList<Visible>()" class="form-control" id="visibleenum">
+            </select>
+        </div>
+
+
+        <input type="submit" value="Modifier la catégorie" class="btn btn-success btn-block" />
+    }
+
+</div>
